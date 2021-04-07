@@ -51,7 +51,7 @@ namespace ComClient
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(726, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -74,8 +74,8 @@ namespace ComClient
             this.splitContainer1.Panel2.Controls.Add(this.lblServerIP);
             this.splitContainer1.Panel2.Controls.Add(this.tbPort);
             this.splitContainer1.Panel2.Controls.Add(this.tbIP);
-            this.splitContainer1.Size = new System.Drawing.Size(726, 468);
-            this.splitContainer1.SplitterDistance = 453;
+            this.splitContainer1.Size = new System.Drawing.Size(929, 534);
+            this.splitContainer1.SplitterDistance = 653;
             this.splitContainer1.TabIndex = 2;
             // 
             // tbClient
@@ -86,16 +86,16 @@ namespace ComClient
             this.tbClient.Location = new System.Drawing.Point(3, 3);
             this.tbClient.Multiline = true;
             this.tbClient.Name = "tbClient";
-            this.tbClient.Size = new System.Drawing.Size(447, 462);
+            this.tbClient.Size = new System.Drawing.Size(647, 528);
             this.tbClient.TabIndex = 0;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sbMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 446);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 512);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(269, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(272, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -160,12 +160,13 @@ namespace ComClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(726, 492);
+            this.ClientSize = new System.Drawing.Size(929, 558);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormClient";
             this.Text = "TcpClient";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClient_FormClosing);
             this.Load += new System.EventHandler(this.FormClient_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

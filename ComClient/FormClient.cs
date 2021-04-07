@@ -49,12 +49,30 @@ namespace ComClient
 
         private void FormClient_Load(object sender, EventArgs e)
         {
+            int x1, y1, sizeX, sizeY;
             StringBuilder sb = new StringBuilder(20);
-            GetPrivateProfileString("Comm", "IP", "127.0.0.1", sb, 512, "\\ComClient.ini"); init_IP = sb.ToString(); // Section [Comm],   Key [IP : Port],    ...    , FileName : ComClient.ini
-            GetPrivateProfileString("Comm", "Port", "9001", sb, 512, "\\ComClient.ini");    init_Port = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "IP", "127.0.0.1", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); init_IP = sb.ToString(); // Section [Comm],   Key [IP : Port],    ...    , FileName : ComClient.ini
+            GetPrivateProfileString("Comm", "Port", "9001", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");    init_Port = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "LocX", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); x1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "LocY", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); y1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "SizeX", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeX = int.Parse(sb.ToString()); 
+            GetPrivateProfileString("Comm", "SizeY", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeY = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "Splitter", $"300", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); SplitContainer1 = int.Parse(sb.ToString());
 
+            Location = new Point()
             tbIP.Text = init_IP;
             tbPort.Text = $"{init_Port}";
+        }
+
+        private void FormClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WritePrivateProfileString("Comm", "IP", tbIP.Text, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");
+            WritePrivateProfileString("Comm", "Port", tbPort.Text, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); // init_Port = int.Parse(sb.ToString());
+            WritePrivateProfileString("Form", "LocX", $"{Location.X}", "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");
+            WritePrivateProfileString("Form", "LocY", $"{Location.Y}", "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");
+            WritePrivateProfileString("Form", "SizeX", $"{Size.Width}", "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");
+            WritePrivateProfileString("Form", "SizeY", $"{Size.Height}", "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");
+            
         }
     }
 }
