@@ -32,14 +32,14 @@ namespace ComClient
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tbClient = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.sbMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnSend = new System.Windows.Forms.Button();
             this.lblPort = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblServerIP = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.tbIP = new System.Windows.Forms.TextBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.sbMessage = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +89,22 @@ namespace ComClient
             this.tbClient.Size = new System.Drawing.Size(447, 462);
             this.tbClient.TabIndex = 0;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sbMessage});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 446);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(269, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // sbMessage
+            // 
+            this.sbMessage.Name = "sbMessage";
+            this.sbMessage.Size = new System.Drawing.Size(67, 17);
+            this.sbMessage.Text = "SendStatus";
+            // 
             // btnSend
             // 
             this.btnSend.Location = new System.Drawing.Point(187, 21);
@@ -132,7 +148,6 @@ namespace ComClient
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(55, 21);
             this.tbPort.TabIndex = 1;
-            this.tbPort.Text = "9001";
             // 
             // tbIP
             // 
@@ -140,23 +155,6 @@ namespace ComClient
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(100, 21);
             this.tbIP.TabIndex = 0;
-            this.tbIP.Text = "127.0.0.1";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sbMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 446);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(269, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // sbMessage
-            // 
-            this.sbMessage.Name = "sbMessage";
-            this.sbMessage.Size = new System.Drawing.Size(67, 17);
-            this.sbMessage.Text = "SendStatus";
             // 
             // FormClient
             // 
@@ -168,6 +166,7 @@ namespace ComClient
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormClient";
             this.Text = "TcpClient";
+            this.Load += new System.EventHandler(this.FormClient_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

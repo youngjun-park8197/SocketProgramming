@@ -43,6 +43,7 @@ namespace ComunicateTest
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.sbServMessage1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.sbIpPortMessage = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -175,7 +176,8 @@ namespace ComunicateTest
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sbServMessage1});
+            this.sbServMessage1,
+            this.sbIpPortMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 547);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(818, 22);
@@ -192,6 +194,12 @@ namespace ComunicateTest
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // sbIpPortMessage
+            // 
+            this.sbIpPortMessage.Name = "sbIpPortMessage";
+            this.sbIpPortMessage.Size = new System.Drawing.Size(50, 17);
+            this.sbIpPortMessage.Text = "IP : Port";
+            // 
             // FormServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -201,7 +209,7 @@ namespace ComunicateTest
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormServer";
             this.Text = "TcpServer";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormServer_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormServer_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -235,6 +243,7 @@ namespace ComunicateTest
         private System.Windows.Forms.ToolStripStatusLabel sbServMessage1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnServStop;
+        private System.Windows.Forms.ToolStripStatusLabel sbIpPortMessage;
     }
 }
 
