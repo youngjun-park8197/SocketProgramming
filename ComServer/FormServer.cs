@@ -1,4 +1,5 @@
-﻿using System;
+﻿using myLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+// using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,18 +17,19 @@ namespace ComunicateTest
 {
     public partial class FormServer : Form
     {
+       /* 
+        [DllImport("kernel32")]
+        static extern int GetPrivateProfileString(string sec, string key, string defStr, StringBuilder sb, int sbSize, string path);
+
+        [DllImport("kernel32")]
+        static extern int WritePrivateProfileString(string sec, string key, string str, string path);
+       */
+
         public FormServer()
         {
             InitializeComponent();
         }
 
-        // 통신 메세지 단위 : 1024Byte
-        // ################# 공통 사용 외부 변수 선언부 #################
-        Thread thread = null;
-        string MainMsg; // tbServer의 Text 내용
-        TcpListener listener = null;
-        byte[] bArr = new byte[200];
-        // ##############################################################
 
         delegate void cbAddText(string str); // str을 인수로 받아 tbServer 텍스트박스에 출력하는 콜백 함수
 
@@ -36,7 +39,7 @@ namespace ComunicateTest
             {
                 cbAddText at = new cbAddText(AddText); // 콜백
                 object[] bArr = { str }; // 배열인 이유 : 여래 인자값에 대해 처리해야할 수도 있기 때문
-                Invoke(at, bArr);
+                Invoke(at, bArr); // 함수의 대리자(cbAddText 오브젝트 타입의 at 변수로 선언된 형태)를 호출하기 위해 invoke 사용
             }
             else
             {
@@ -44,6 +47,13 @@ namespace ComunicateTest
             }
         }
 
+        // 통신 메세지 단위 : 1024Byte
+        // ################# 공통 사용 외부 변수 선언부 #################
+        Thread thread = null;
+        string MainMsg; // tbServer의 Text 내용
+        TcpListener listener = null;
+        byte[] bArr = new byte[200];
+        // ##############################################################
 
         private void btnServStart_Click(object sender, EventArgs e)
         {
@@ -110,8 +120,8 @@ namespace ComunicateTest
                     
                     AddText(Encoding.Default.GetString(bArr, 0, n));
 
-                    IPEndPoint ep = (IPEndPoint)sock.RemoteEndPoint; // 127.0.0.1:76543 가상의 포트 번호
-                    sbIpPortMessage.Text = $"{ep.Address} : {ep.Port}"; // xxx.xxx.xxx.xxx : xxxxx
+                    // IPEndPoint ep = (IPEndPoint)sock.RemoteEndPoint; // 127.0.0.1:76543 가상의 포트 번호
+                    // sbIpPortMessage.Text = $"{ep.Address} : {ep.Port}"; // xxx.xxx.xxx.xxx : xxxxx
                 }
                 // Thread.Sleep(100); // 10 ~ 1000ms 범위 내에서 설정
             }
@@ -140,50 +150,38 @@ namespace ComunicateTest
             MainMsg = "";
         }
 
+        iniFile inif; // 클래스 내 전체 사용을 위해 선언
+        
         private void FormServer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            thread.Abort();
+            // 스레드가 닫히기 전에 폼이 닫히는 것을 구현
+            
+            inif.setString("Form", "LocX", $"{Location.X}");
+            inif.setString("Form", "LocY", $"{Location.Y}");
+
+            inif.setString("Form", "SizeX", $"{Size.Width}");
+            inif.setString("Form", "SizeY", $"{Size.Height}");
+
+            inif.setString("Form", "Splitter", $"{splitContainer1.SplitterDistance}");
+
+            if (thread != null) thread.Abort(); // thread 종료
         }
 
+        private void FormServer_Load(object sender, EventArgs e)
+        {
+            int x1, y1, sizeX, sizeY;
 
-        /*
-        TcpListener listener = null;
-        string mainMsg = "";
+            inif = new iniFile("\\ComServer.ini"); // ini 파일 Open
 
-        ------- btnStart_Click 부분 -------
-            Thread th = new Thread(ServerProcess);
-            th.Start();
-            timer1.Start();
-        -----------------------------------
-
-
-        --------- ServerProcess() ---------
-        private void ServerProcess() {
-            while(true) {
-                if(listener == null) {
-                    TcpListener listener = new TcpListener(int.Parse(tbServerPort.Text));
-                    listener.Start();
-                }
-
-                if(listener.Pending()) {
-                    TcpClient tcp = listener.AcceptTcpClient();
-                    NetworkStream ns = tcp.GetStream();
-                    byte[] bArr = new byte[200];
-
-                    while(ns.DataAvailable) {
-                        int n = ns.Read(bArr, 0, 200);
-                        tbServer.Text += Encoding.Default.GetString(bArr, 0, n);
-                    }
-                }
-            }
+            x1 = int.Parse(inif.getString("Form", "LocX", "0")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
+            y1 = int.Parse(inif.getString("Form", "LocY", "0"));
+            Location = new Point(x1, y1);
+            
+            sizeX = int.Parse(inif.getString("Form", "SizeX", "580")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
+            sizeY = int.Parse(inif.getString("Form", "SizeY", "580"));
+            Size = new Size(sizeX, sizeY);
+            
+            splitContainer1.SplitterDistance = int.Parse(inif.getString("Form", "Splitter", "300"));
         }
-        -----------------------------------
-
-
-        ---------- timer1_Tick() ----------
-            tbServer.Text += mainMsg;
-            mainMsg = "";
-        -----------------------------------
-        */
     }
 }

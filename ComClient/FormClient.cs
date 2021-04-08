@@ -16,18 +16,18 @@ namespace ComClient
     {
         // 파일 형태로 ip 주소와 port에 대한 정보를 가져오려는 작업
         [DllImport("kernel32")]
-        static extern int GetPrivateProfileString(string sec, string key, string defStr, StringBuilder sb, int sbSize, string p);
+        static extern int GetPrivateProfileString(string sec, string key, string defStr, StringBuilder sb, int sbSize, string path);
 
         [DllImport("kernel32")]
-        static extern int WritePrivateProfileString(string sec, string key, string defStr, string p);
+        static extern int WritePrivateProfileString(string sec, string key, string defStr, string path);
 
         public FormClient()
         {
             InitializeComponent();
         }
 
-        string  init_IP = "127.0.0.1";
-        int     init_Port = 9001;
+        string  init_IP = "";
+        int     init_Port = 0;
 
         private void btnSend_Click(object sender, EventArgs e)
         {
@@ -50,16 +50,17 @@ namespace ComClient
         private void FormClient_Load(object sender, EventArgs e)
         {
             int x1, y1, sizeX, sizeY;
-            StringBuilder sb = new StringBuilder(20);
+            StringBuilder sb = new StringBuilder(512);
             GetPrivateProfileString("Comm", "IP", "127.0.0.1", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); init_IP = sb.ToString(); // Section [Comm],   Key [IP : Port],    ...    , FileName : ComClient.ini
-            GetPrivateProfileString("Comm", "Port", "9001", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini");    init_Port = int.Parse(sb.ToString());
-            GetPrivateProfileString("Comm", "LocX", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); x1 = int.Parse(sb.ToString());
-            GetPrivateProfileString("Comm", "LocY", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); y1 = int.Parse(sb.ToString());
-            GetPrivateProfileString("Comm", "SizeX", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeX = int.Parse(sb.ToString()); 
-            GetPrivateProfileString("Comm", "SizeY", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeY = int.Parse(sb.ToString());
-            GetPrivateProfileString("Comm", "Splitter", $"300", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); SplitContainer1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Comm", "Port", "9001", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); init_Port = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "LocX", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); x1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "LocY", $"0", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); y1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "SizeX", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeX = int.Parse(sb.ToString()); 
+            GetPrivateProfileString("Form", "SizeY", $"500", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); sizeY = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "Splitter", $"300", sb, 512, "E:\\SW기술진흥협회 교육\\C++ 프로젝트 파일\\ComunicateTest\\ComClient\bin\\Debug\\ComClient.ini"); splitContainer1.SplitterDistance = int.Parse(sb.ToString());
 
-            Location = new Point()
+            Location = new Point(x1, y1);
+            Size = new Size(sizeX, sizeY);
             tbIP.Text = init_IP;
             tbPort.Text = $"{init_Port}";
         }

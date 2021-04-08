@@ -42,8 +42,8 @@ namespace ComunicateTest
             this.tbIPAddr = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.sbServMessage1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.sbIpPortMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -190,15 +190,15 @@ namespace ComunicateTest
             this.sbServMessage1.Size = new System.Drawing.Size(86, 17);
             this.sbServMessage1.Text = "ServerMessage";
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // sbIpPortMessage
             // 
             this.sbIpPortMessage.Name = "sbIpPortMessage";
             this.sbIpPortMessage.Size = new System.Drawing.Size(50, 17);
             this.sbIpPortMessage.Text = "IP : Port";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // FormServer
             // 
@@ -210,6 +210,7 @@ namespace ComunicateTest
             this.Name = "FormServer";
             this.Text = "TcpServer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormServer_FormClosing);
+            this.Load += new System.EventHandler(this.FormServer_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
