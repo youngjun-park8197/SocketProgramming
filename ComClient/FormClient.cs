@@ -77,13 +77,17 @@ namespace ComClient
 
         void ClientProcess()
         {
-            if (sock != null && sock.Connected) // 서버와의 연결이 되어있다면,
+            while(true)
             {
-                int n = sock.Available; // 데이터가 읽어와야할 개수 만큼
-                byte[] bArr = new byte[n]; // 동적으로 byte array 할당
-                sock.Receive(bArr); // 읽은 데이터를 기준으로
-                AddText(Encoding.Default.GetString(bArr));
-                // tbClient.Text += Encoding.Default.GetString(bArr); // 그냥 bArr만 추가해주는 것은 불가능
+                if (sock != null && sock.Connected) // 서버와의 연결이 되어있다면,
+                {
+                    int n = sock.Available; // 데이터가 읽어와야할 개수 만큼
+                    byte[] bArr = new byte[n]; // 동적으로 byte array 할당
+                    sock.Receive(bArr); // 읽은 데이터를 기준으로
+                    AddText(Encoding.Default.GetString(bArr));
+                    // tbClient.Text += Encoding.Default.GetString(bArr); // 그냥 bArr만 추가해주는 것은 불가능
+                }
+                Thread.Sleep(100);
             }
         }
 
