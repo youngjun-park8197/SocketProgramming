@@ -19,7 +19,6 @@ namespace myLibrary
         }
     }
 
-
     public class iniFile // ini 파일 사용을 위한 클래스 : Read / Write
     {
         [DllImport("kernel32")] // 사용하게 되는 클래스 내부에서 선언되어야 함
@@ -33,9 +32,9 @@ namespace myLibrary
             iniPath = path;
         }
 
-        string iniPath = "";
+        private string iniPath = ""; // 클래스 변수
 
-        public string getString(string sect, string key, string def = "") // null과 ""(빈 문자열) 둘은 다름, 여기서는 빈 문자열 형태
+        public string GetString(string sect, string key, string def = "") // null과 ""(빈 문자열) 둘은 다름, 여기서는 빈 문자열 형태
         {
             StringBuilder sb = new StringBuilder(512);
             GetPrivateProfileString(sect, key, def, sb, 512, iniPath); 
@@ -43,10 +42,23 @@ namespace myLibrary
             return sb.ToString();
         }
 
-        public int setString(string sect, string key, string val)
+        public int SetString(string sect, string key, string val)
         {
-             return WritePrivateProfileString(sect, key, val, iniPath);
+            return WritePrivateProfileString(sect, key, val, iniPath);
+        }
+
+        public void ChangeFileName(string p)
+        {
+            iniPath = p;
         }
     }
 
+    public static class mylib
+    {
+        public static string GetToken(int n, string str, char d) // 문자열 str에서 구분자 'd'에 의해 구분된 자료 중 n 번째 자료, ex) "11,22,33"
+        {
+            string[] s = str.Split(d);
+            return s[n];
+        }
+    }
 }

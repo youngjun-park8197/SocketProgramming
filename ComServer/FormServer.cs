@@ -17,19 +17,10 @@ namespace ComunicateTest
 {
     public partial class FormServer : Form
     {
-       /* 
-        [DllImport("kernel32")]
-        static extern int GetPrivateProfileString(string sec, string key, string defStr, StringBuilder sb, int sbSize, string path);
-
-        [DllImport("kernel32")]
-        static extern int WritePrivateProfileString(string sec, string key, string str, string path);
-       */
-
         public FormServer()
         {
             InitializeComponent();
         }
-
 
         delegate void cbAddText(string str); // str을 인수로 받아 tbServer 텍스트박스에 출력하는 콜백 함수
 
@@ -67,7 +58,7 @@ namespace ComunicateTest
             }
             timer1.Start();
             sbServMessage1.Text = "Listener Started.";
-            AddText($"ServerProcess noew started .. Open port is {tbServerPort}.");
+            AddText($"ServerProcess now started .. Open port is {tbServerPort}.");
         }
 
 
@@ -86,8 +77,11 @@ namespace ComunicateTest
         {
             while(true)
             {
-                if (listener == null) listener = new TcpListener(Dns.Resolve("localhost").AddressList[0], int.Parse(tbServerPort.Text)); // 서버에서는 자신의 IP 필요 X, 서버의 포트번호만 수신
-                listener.Start(); // 서버 측에서 listen을 하며 대기 (stop 명령까지 계속 수행)
+                if (listener == null)
+                {
+                    listener = new TcpListener(int.Parse(tbServerPort.Text)); // 서버에서는 자신의 IP 필요 X, 서버의 포트번호만 수신
+                    listener.Start(); // 서버 측에서 listen을 하며 대기 (stop 명령까지 계속 수행)
+                }
                 // sbServMessage1.Text = "Listening ... "; (생략)
                 // Invalidate(); // 폼 전체에 대해 invalidate 수행 (생략)
 
@@ -95,16 +89,12 @@ namespace ComunicateTest
                 {
                     /*
                     TcpClient tcp = listener.AcceptTcpClient(); // 외부로부터의 접속 요청 수신 : Blocking / Non-Blocking
-
                     Socket sock = listener.AcceptSocket(); // Tcpclient 가 아닌 Socker을 이용해 Accept 및 입력 stream 처리
-                    
                     EndPoint ep = tcp.Client.RemoteEndPoint; // 엔드포닝트에 대한 정보
                     sbServMessage1.Text = ep.ToString();
-
                     // sbServMessage1.Text = "Connected"; // (생략)
                     // Socket sock = listener.AcceptSocket(); // 동일한 listner로 소켓을 받는 것도 가능 (생략) 
                     NetworkStream ns = tcp.GetStream(); // 네트워크스트림을 이용해 데이터를 가져옴
-
                     while (ns.DataAvailable) // 읽고 있는 순간에도 데이터가 계속 들어올 수 있음 (데이터가 몇개인지 알수가 없을 수 있음)
                     {
                         int n = ns.Read(bArr, 0, 200);
@@ -117,15 +107,18 @@ namespace ComunicateTest
                     Socket sock = listener.AcceptSocket(); // Tcpclient 가 아닌 Socker을 이용해 Accept 및 입력 stream 처리
                     byte[] bArr = new byte[sock.Available];
                     int n = sock.Receive(bArr);
-                    
-                    AddText(Encoding.Default.GetString(bArr, 0, n));
+                    AddText(Encoding.Default.GetString(bArr, 0, n)); // 화면상에 출력
+
+                    sock.Send(Encoding.Default.GetBytes("OK"));
 
                     // IPEndPoint ep = (IPEndPoint)sock.RemoteEndPoint; // 127.0.0.1:76543 가상의 포트 번호
                     // sbIpPortMessage.Text = $"{ep.Address} : {ep.Port}"; // xxx.xxx.xxx.xxx : xxxxx
+
+                    sbIpPortMessage.Text = $"{mylib.GetToken(0, sock.RemoteEndPoint.ToString(), ':')}";
                 }
-                // Thread.Sleep(100); // 10 ~ 1000ms 범위 내에서 설정
             }
         }
+
 
         private void btnSend_Click(object sender, EventArgs e) // 하나의 패킷을 보내는 버튼
         {
@@ -150,19 +143,18 @@ namespace ComunicateTest
             MainMsg = "";
         }
 
-        iniFile inif; // 클래스 내 전체 사용을 위해 선언
-        
+        iniFile ini; // 클래스 내 전체 사용을 위해 선언
+
         private void FormServer_FormClosing(object sender, FormClosingEventArgs e)
         {
             // 스레드가 닫히기 전에 폼이 닫히는 것을 구현
-            
-            inif.setString("Form", "LocX", $"{Location.X}");
-            inif.setString("Form", "LocY", $"{Location.Y}");
+            ini.SetString("Form", "LocX", $"{Location.X}");
+            ini.SetString("Form", "LocY", $"{Location.Y}");
 
-            inif.setString("Form", "SizeX", $"{Size.Width}");
-            inif.setString("Form", "SizeY", $"{Size.Height}");
+            ini.SetString("Form", "SizeX", $"{Size.Width}");
+            ini.SetString("Form", "SizeY", $"{Size.Height}");
 
-            inif.setString("Form", "Splitter", $"{splitContainer1.SplitterDistance}");
+            ini.SetString("Form", "Splitter", $"{splitContainer1.SplitterDistance}");
 
             if (thread != null) thread.Abort(); // thread 종료
         }
@@ -171,17 +163,17 @@ namespace ComunicateTest
         {
             int x1, y1, sizeX, sizeY;
 
-            inif = new iniFile("\\ComServer.ini"); // ini 파일 Open
+            ini = new iniFile(".\\ComClient.ini"); // ini 파일 Open
 
-            x1 = int.Parse(inif.getString("Form", "LocX", "0")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
-            y1 = int.Parse(inif.getString("Form", "LocY", "0"));
+            x1 = int.Parse(ini.GetString("Form", "LocX", "0")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
+            y1 = int.Parse(ini.GetString("Form", "LocY", "0"));
             Location = new Point(x1, y1);
             
-            sizeX = int.Parse(inif.getString("Form", "SizeX", "580")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
-            sizeY = int.Parse(inif.getString("Form", "SizeY", "580"));
+            sizeX = int.Parse(ini.GetString("Form", "SizeX", "580")); // def의 경우 라이브러리에 빈 문자열 ""으로 초기화시켰음
+            sizeY = int.Parse(ini.GetString("Form", "SizeY", "580"));
             Size = new Size(sizeX, sizeY);
             
-            splitContainer1.SplitterDistance = int.Parse(inif.getString("Form", "Splitter", "300"));
+            splitContainer1.SplitterDistance = int.Parse(ini.GetString("Form", "Splitter", "300"));
         }
     }
 }

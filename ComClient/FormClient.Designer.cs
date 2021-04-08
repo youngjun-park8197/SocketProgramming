@@ -40,6 +40,7 @@ namespace ComClient
             this.lblServerIP = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.tbIP = new System.Windows.Forms.TextBox();
+            this.btnConnect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -51,7 +52,7 @@ namespace ComClient
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(676, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -67,6 +68,7 @@ namespace ComClient
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnConnect);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Panel2.Controls.Add(this.btnSend);
             this.splitContainer1.Panel2.Controls.Add(this.lblPort);
@@ -74,8 +76,8 @@ namespace ComClient
             this.splitContainer1.Panel2.Controls.Add(this.lblServerIP);
             this.splitContainer1.Panel2.Controls.Add(this.tbPort);
             this.splitContainer1.Panel2.Controls.Add(this.tbIP);
-            this.splitContainer1.Size = new System.Drawing.Size(929, 534);
-            this.splitContainer1.SplitterDistance = 653;
+            this.splitContainer1.Size = new System.Drawing.Size(676, 305);
+            this.splitContainer1.SplitterDistance = 475;
             this.splitContainer1.TabIndex = 2;
             // 
             // tbClient
@@ -86,16 +88,16 @@ namespace ComClient
             this.tbClient.Location = new System.Drawing.Point(3, 3);
             this.tbClient.Multiline = true;
             this.tbClient.Name = "tbClient";
-            this.tbClient.Size = new System.Drawing.Size(647, 528);
+            this.tbClient.Size = new System.Drawing.Size(469, 299);
             this.tbClient.TabIndex = 0;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sbMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 512);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 283);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(272, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(197, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -107,7 +109,7 @@ namespace ComClient
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(187, 21);
+            this.btnSend.Location = new System.Drawing.Point(63, 48);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 21);
             this.btnSend.TabIndex = 5;
@@ -156,11 +158,21 @@ namespace ComClient
             this.tbIP.Size = new System.Drawing.Size(100, 21);
             this.tbIP.TabIndex = 0;
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(63, 75);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.TabIndex = 7;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // FormClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 558);
+            this.ClientSize = new System.Drawing.Size(676, 329);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -193,6 +205,7 @@ namespace ComClient
         private System.Windows.Forms.TextBox tbIP;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel sbMessage;
+        private System.Windows.Forms.Button btnConnect;
     }
 }
 
