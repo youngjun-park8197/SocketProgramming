@@ -77,7 +77,7 @@ namespace ComunicateTest
         {
             while(true)
             {
-                if (listener == null)
+                if (listener == null) // listener는 connection을 해주는 용도
                 {
                     listener = new TcpListener(int.Parse(tbServerPort.Text)); // 서버에서는 자신의 IP 필요 X, 서버의 포트번호만 수신
                     listener.Start(); // 서버 측에서 listen을 하며 대기 (stop 명령까지 계속 수행)

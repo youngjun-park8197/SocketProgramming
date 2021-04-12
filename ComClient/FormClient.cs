@@ -149,6 +149,5 @@ namespace ComClient
             inif.SetString("Form", "SizeY",     $"{Size.Height}");
             inif.SetString("Form", "Splitter",  $"{splitContainer1.SplitterDistance}");
         }
-
     }
 }
